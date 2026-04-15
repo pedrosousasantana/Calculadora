@@ -2,8 +2,6 @@
 
 Calculadora científica avançada com gráfico de funções, limite, derivada, integral e série de Taylor — tudo rodando no browser, sem backend.
 
-![screenshot](https://via.placeholder.com/900x500/0e0f11/5b8cff?text=CalcCientifica)
-
 ## Funcionalidades
 
 ### Calculadora
