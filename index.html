@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CalcCientífica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="app-wrapper">
+    <header class="app-header">
+      <span class="logo">∫ CalcCientífica</span>
+      <span class="subtitle">calculadora científica avançada</span>
+    </header>
+
+    <main class="app-grid">
+      <!-- CALCULADORA -->
+      <section class="panel panel-calc">
+        <div class="display">
+          <div class="display-expr" id="expr"></div>
+          <div class="display-main" id="mainVal">0</div>
+          <div class="display-hist-last" id="histLast"></div>
+        </div>
+
+        <div class="mode-bar">
+          <button class="mode-btn active" id="bDeg" data-mode="deg">DEG</button>
+          <button class="mode-btn" id="bRad" data-mode="rad">RAD</button>
+          <button class="mode-btn" id="bInv">INV</button>
+          <button class="mode-btn" id="bHist">HIST</button>
+        </div>
+
+        <div class="keypad" id="keypad"></div>
+
+        <div class="hist-panel" id="histPanel">
+          <div class="hist-title">histórico</div>
+          <div class="hist-list" id="histList"></div>
+        </div>
+      </section>
+
+      <!-- GRÁFICO -->
+      <section class="panel panel-graph">
+        <div class="panel-label">gráfico</div>
+        <canvas id="graphCanvas"></canvas>
+        <div class="graph-controls">
+          <div class="field">
+            <label>f(x)</label>
+            <input type="text" id="gf" value="sin(x)" placeholder="ex: sin(x)*x"/>
+          </div>
+          <div class="field">
+            <label>x mín</label>
+            <input type="number" id="gxmin" value="-6.28" step="0.5"/>
+          </div>
+          <div class="field">
+            <label>x máx</label>
+            <input type="number" id="gxmax" value="6.28" step="0.5"/>
+          </div>
+          <div class="field">
+            <label>exibir</label>
+            <select id="gshow">
+              <option value="f">f(x)</option>
+              <option value="df">f'(x)</option>
+              <option value="both">f e f'(x)</option>
+            </select>
+          </div>
+        </div>
+        <div class="graph-legend" id="graphLegend"></div>
+      </section>
+
+      <!-- CÁLCULO -->
+      <section class="panel panel-calculus">
+        <div class="panel-label">cálculo</div>
+
+        <div class="calc-tabs">
+          <button class="calc-tab active" data-tab="lim">Limite</button>
+          <button class="calc-tab" data-tab="deriv">Derivada</button>
+          <button class="calc-tab" data-tab="integ">Integral</button>
+          <button class="calc-tab" data-tab="taylor">Taylor</button>
+        </div>
+
+        <div class="calc-body">
+          <!-- Limite -->
+          <div class="calc-panel active" id="tab-lim">
+            <p class="calc-desc">lim<sub>x→a</sub> f(x) — aproximação bilateral</p>
+            <div class="fields-row">
+              <div class="field"><label>f(x)</label><input type="text" id="lf" value="sin(x)/x"/></div>
+              <div class="field"><label>x →</label><input type="text" id="la" value="0"/></div>
+            </div>
+            <button class="action-btn" id="btnLim">calcular limite</button>
+            <div class="result-box" id="lr">—</div>
+          </div>
+
+          <!-- Derivada -->
+          <div class="calc-panel" id="tab-deriv">
+            <p class="calc-desc">f<sup>(n)</sup>(x) — diferença centrada</p>
+            <div class="fields-row fields-3">
+              <div class="field"><label>f(x)</label><input type="text" id="df" value="x^3 - 2*x"/></div>
+              <div class="field"><label>x =</label><input type="text" id="dx" value="2"/></div>
+              <div class="field"><label>ordem n</label><input type="number" id="dn" value="1" min="1" max="4"/></div>
+            </div>
+            <button class="action-btn" id="btnDeriv">calcular derivada</button>
+            <div class="result-box" id="dr">—</div>
+          </div>
+
+          <!-- Integral -->
+          <div class="calc-panel" id="tab-integ">
+            <p class="calc-desc">∫<sub>a</sub><sup>b</sup> f(x) dx — método de Simpson</p>
+            <div class="fields-row fields-3">
+              <div class="field"><label>f(x)</label><input type="text" id="if" value="x^2 * sin(x)"/></div>
+              <div class="field"><label>a</label><input type="text" id="ia" value="0"/></div>
+              <div class="field"><label>b</label><input type="text" id="ib" value="3.14159"/></div>
+            </div>
+            <button class="action-btn" id="btnInteg">calcular integral</button>
+            <div class="result-box" id="ir">—</div>
+          </div>
+
+          <!-- Taylor -->
+          <div class="calc-panel" id="tab-taylor">
+            <p class="calc-desc">expansão em série de Taylor em torno de x₀</p>
+            <div class="fields-row fields-3">
+              <div class="field"><label>f(x)</label><input type="text" id="tf" value="cos(x)"/></div>
+              <div class="field"><label>x₀</label><input type="text" id="tx0" value="0"/></div>
+              <div class="field"><label>ordem n</label><input type="number" id="tn" value="6" min="1" max="10"/></div>
+            </div>
+            <button class="action-btn" id="btnTaylor">expandir série</button>
+            <div class="result-box result-taylor" id="tr">—</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>cálculo numérico via <a href="https://mathjs.org" target="_blank">math.js</a></span>
+      <span>funções: sin cos tan log ln √ n! π e ^ — DEG/RAD — INV</span>
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
+  <script src="calc.js"></script>
+  <script src="graph.js"></script>
+  <script src="calculus.js"></script>
+</body>
+</html>
